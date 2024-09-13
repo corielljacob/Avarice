@@ -62,17 +62,28 @@ public unsafe class Avarice : IDalamudPlugin
             Svc.PluginInterface.UiBuilder.OpenConfigUi += delegate { configWindow.IsOpen = true; };
             Svc.Condition.ConditionChange += OnConditionChange;
             _ = Svc.Commands.AddHandler("/avarice", new CommandInfo((string cmd, string args) =>
-        {
-            if(args == "debug")
             {
-                P.currentProfile.Debug = !P.currentProfile.Debug;
-            }
-            else
-            {
-                configWindow.IsOpen = !configWindow.IsOpen;
-            }
-        })
+                if(args == "debug")
+                {
+                    P.currentProfile.Debug = !P.currentProfile.Debug;
+                }
+                else
+                {
+                    configWindow.IsOpen = !configWindow.IsOpen;
+                }
+            })
             { HelpMessage = "Toggle configuration/stats window" });
+
+            _ = Svc.Commands.AddHandler("/togglecompass", new CommandInfo((string cmd, string args) =>
+            {
+                P.currentProfile.CompassEnable = !P.currentProfile.CompassEnable;
+                if (P.currentProfile.CompassEnable)
+                    Svc.Chat.Print("Turned compass on");
+                else
+                    Svc.Chat.Print("Turned compass off");
+            })
+            { HelpMessage = "Toggle player compass on/off"});
+
             //LoadOpcode.Start();
             LuminaSheets.Init();
             Svc.PluginInterface.GetIpcProvider<IntPtr, CardinalDirection>("Avarice.CardinalDirection").RegisterFunc(GetCardinalDirectionForObject);
