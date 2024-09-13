@@ -78,9 +78,13 @@ public unsafe class Avarice : IDalamudPlugin
             {
                 P.currentProfile.CompassEnable = !P.currentProfile.CompassEnable;
                 if (P.currentProfile.CompassEnable)
+                {
                     Svc.Chat.Print("Turned compass on");
+                }
                 else
+                {
                     Svc.Chat.Print("Turned compass off");
+                }
             })
             { HelpMessage = "Toggle player compass on/off"});
 
